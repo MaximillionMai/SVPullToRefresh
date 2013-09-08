@@ -429,8 +429,8 @@ static char UIScrollViewPullToRefreshView;
 }
 
 - (void)startAnimating{
-    if(fequalzero(self.scrollView.contentOffset.y)) {
-        [self.scrollView setContentOffset:CGPointMake(self.scrollView.contentOffset.x, -self.frame.size.height) animated:YES];
+    if(fequalzero(self.scrollView.contentOffset.y + self.scrollView.contentInset.top)) {
+        [self.scrollView setContentOffset:CGPointMake(self.scrollView.contentOffset.x, -self.frame.size.height - self.scrollView.contentInset.top) animated:YES];
         self.wasTriggeredByUser = NO;
     }
     else
