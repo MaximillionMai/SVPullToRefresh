@@ -210,19 +210,19 @@ static char UIScrollViewPullToRefreshView;
 
 - (void)layoutSubviews {
     
-    for(id otherView in self.viewForState) {
-        if([otherView isKindOfClass:[UIView class]])
-            [otherView removeFromSuperview];
+	id customView = [self.viewForState objectAtIndex:self.state];
+	BOOL hasCustomView = [customView isKindOfClass:[UIView class]];
+
+	for(id otherView in self.viewForState) {
+	if([otherView isKindOfClass:[UIView class]] && otherView != customView)
+		[otherView removeFromSuperview];
     }
-    
-    id customView = [self.viewForState objectAtIndex:self.state];
-    BOOL hasCustomView = [customView isKindOfClass:[UIView class]];
     
     self.titleLabel.hidden = hasCustomView;
     self.subtitleLabel.hidden = hasCustomView;
     self.arrow.hidden = hasCustomView;
     
-    if(hasCustomView) {
+    if(hasCustomView && ((UIView *)customView).superview == nil) {
         [self addSubview:customView];
         CGRect viewBounds = [customView bounds];
         CGPoint origin = CGPointMake(roundf((self.bounds.size.width-viewBounds.size.width)/2), roundf((self.bounds.size.height-viewBounds.size.height)/2));
